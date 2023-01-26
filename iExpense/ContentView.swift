@@ -8,40 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var numbers = [Int]()
-    @State private var currentNumber = 1
-    
+    @StateObject var expenses = Expenses()
     var body: some View {
         NavigationStack
         {
-            VStack
+            List
             {
-                List
+                //we could remove id:\.self below because each item is already unique because of the id property that is UUID already.
+                ForEach(expenses.items)
                 {
-                    ForEach(numbers, id: \.self)
-                    {
-                        Text("\($0)")
-                    }
-                    .onDelete(perform: remoweRows)
+                    item in Text("\(item.name)")
                 }
-                .toolbar
+                .onDelete(perform: remove)
+            }
+            .toolbar
+            {
+                Button
                 {
-                    EditButton()
-                }
-                
-                Button("Add")
-                {
-                    numbers.append(currentNumber)
-                    currentNumber += 1
+                    let expense = ExpenseItem(name: "Test", price: 10.99, type: "Personal")
+                    expenses.items.append(expense)
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
             .navigationTitle("iExpense")
+            .toolbar
+            {
+                EditButton()
+            }
         }
-        
     }
-    func remoweRows(at offsets : IndexSet)
+    
+    func remove(at offSets : IndexSet)
     {
-        numbers.remove(atOffsets: offsets)
+        expenses.items.remove(atOffsets: offSets)
     }
 }
 
