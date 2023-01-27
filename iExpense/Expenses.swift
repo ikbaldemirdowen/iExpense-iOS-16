@@ -11,8 +11,8 @@ class Expenses : ObservableObject
 {
     @Published var items = [ExpenseItem]() {
         //we need to save the items in our items array
+        //archiving here.
         didSet {
-            
             if let encoded = try? JSONEncoder().encode(items)
             {
                 UserDefaults.standard.set(encoded, forKey: "items")
