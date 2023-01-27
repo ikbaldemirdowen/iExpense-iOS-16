@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var expenses = Expenses()
+    @State private var showingAddExpense = false
     var body: some View {
         NavigationStack
         {
@@ -17,7 +18,18 @@ struct ContentView: View {
                 //we could remove id:\.self below because each item is already unique because of the id property that is UUID already.
                 ForEach(expenses.items)
                 {
-                    item in Text("\(item.name)")
+                    item in
+                    HStack
+                    {
+                        VStack(alignment : .leading)
+                        {
+                            Text(item.name)
+                                .font(.subheadline)
+                            Text(item.type)
+                        }
+                        Spacer()
+                        Text(item.price, format: .currency(code: "USD"))
+                    }
                 }
                 .onDelete(perform: remove)
             }
@@ -25,8 +37,7 @@ struct ContentView: View {
             {
                 Button
                 {
-                    let expense = ExpenseItem(name: "Test", price: 10.99, type: "Personal")
-                    expenses.items.append(expense)
+                    showingAddExpense.toggle()
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -35,6 +46,10 @@ struct ContentView: View {
             .toolbar
             {
                 EditButton()
+            }
+            .sheet(isPresented: $showingAddExpense)
+            {
+                AddView(expenses: expenses)
             }
         }
     }
@@ -47,6 +62,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(expenses: Expenses())
     }
 }

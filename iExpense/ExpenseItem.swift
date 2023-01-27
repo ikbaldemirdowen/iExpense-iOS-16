@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ExpenseItem : Identifiable
+struct ExpenseItem : Identifiable, Codable
 {
     let name : String
     let price : Double
     let type : String
-    let id = UUID()
+    var id = UUID()
 }
