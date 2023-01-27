@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     @State private var showingAddExpense = false
@@ -28,7 +29,8 @@ struct ContentView: View {
                             Text(item.type)
                         }
                         Spacer()
-                        Text(item.price, format: .currency(code: "USD"))
+                        Text(item.price, format: .localCurrency)
+                            .style(for: item)
                     }
                 }
                 .onDelete(perform: remove)

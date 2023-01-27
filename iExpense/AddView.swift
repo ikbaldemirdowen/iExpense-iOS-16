@@ -21,7 +21,7 @@ struct AddView: View {
             Form
             {
                 TextField("Name", text: $name)
-                TextField("Price", value: $price, format: .currency(code: "USD"))
+                TextField("Price", value: $price, format: .localCurrency)
                     .keyboardType(.decimalPad)
                 Picker("Type", selection: $type)
                 {
